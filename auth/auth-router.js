@@ -4,9 +4,9 @@ const jwt = require("jsonwebtoken");
 const Users = require("./auth-model");
 
 router.post("/register", validateUserBody, (req, res, next) => {
-  const { username, password } = req.body;
+  const { username, email, password } = req.body;
   const hashedPassword = bcrypt.hashSync(password, 11);
-  Users.add({ username, password: hashedPassword })
+  Users.add({ username, email, password: hashedPassword })
     .then(user => {
       res.status(201).json({ id: user.id, username: user.username });
     })
@@ -25,7 +25,10 @@ router.post("/login", validateUserBody, (req, res, next) => {
           next({ message: "Invalid credentials", status: 400 });
         } else {
           const token = generateToken(user);
-          res.status(200).json({ token });
+          res.status(200).json({
+            message: `Welcome ${user.username}!`,
+            token: token
+          });
         }
       }
     })
@@ -34,14 +37,14 @@ router.post("/login", validateUserBody, (req, res, next) => {
 
 // validate the user register and login post req.body
 function validateUserBody(req, res, next) {
-  const { username, password } = req.body;
-  if (!username || !password) {
+  const { username, email, password } = req.body;
+  if (!username || !email || !password) {
     next({
-      message: "Missing one of the required `username` or `password` fields!",
+      message: "Missing one of the required `username` , `email` or `password` fields!",
       status: 401
     });
   } else {
-    req.body = { username, password };
+    req.body = { username, email, password };
     next();
   }
 }
@@ -62,16 +65,31 @@ router.use((error, req, res, next) => {
 
 //token generator
 function generateToken(user) {
-  return jwt.sign(
-    {
-      subject: user.id,
-      username: user.username
-    },
-    process.env.NODE_ENV === "development" ? "secret" : process.env.JWT_SECRET,
-    {
-      expiresIn: "1d"
-    }
-  );
+  const payload = {
+    subject: user.id,
+    username: user.username
+  };
+  const options = {
+    expiresIn: "1d"
+  };
+
+  const result = jwt.sign(payload, "SECRET", options);
+
+  return result;
 }
+
+
+// function generateToken(user) {
+//   return jwt.sign(
+//     {
+//       subject: user.id,
+//       username: user.username
+//     },
+//     process.env.NODE_ENV === "development" ? "secret" : process.env.JWT_SECRET,
+//     {
+//       expiresIn: "1d"
+//     }
+//   );
+// }
 
 module.exports = router;
