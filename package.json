@@ -20,5 +20,8 @@
     "knex": "^0.20.2",
     "sqlite3": "^4.1.0",
     "supertest": "^4.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^6.6.0"
   }
 }
