@@ -73,7 +73,8 @@ function generateToken(user) {
     expiresIn: "1d"
   };
 
-  const result = jwt.sign(payload, "SECRET", options);
+  const secret = process.env.JWT_SECRET || "secret";
+  const result = jwt.sign(payload, secret, options);
 
   return result;
 }
