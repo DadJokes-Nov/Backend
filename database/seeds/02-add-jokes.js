@@ -1,6 +1,6 @@
 exports.seed = async function(knex) {
   await knex("jokes").del();
-  await knex.raw('ALTER TABLE jokes AUTO_INCREMENT = 1');
+  await knex.raw('ALTER SEQUENCE jokes_id_seq RESTARTS WITH 1');
   await knex("jokes").insert([
         {
           punchline: "No guts!!!",
