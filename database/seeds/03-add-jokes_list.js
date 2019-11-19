@@ -62,7 +62,7 @@ exports.seed = function(knex) {
         {
           users_id: 2,
           jokes_id: 16
-        },
+        }
       ]);
     });
 };
