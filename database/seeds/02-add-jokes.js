@@ -1,8 +1,7 @@
-exports.seed = function(knex) {
-  return knex("jokes")
-    .truncate()
-    .then(function() {
-      return knex("jokes").insert([
+exports.seed = async function(knex) {
+  await knex("jokes").del();
+  await knex.raw('ALTER TABLE jokes AUTO_INCREMENT = 1');
+  await knex("jokes").insert([
         {
           punchline: "No guts!!!",
           jokes_description:
@@ -92,5 +91,4 @@ exports.seed = function(knex) {
             "Why does a Moon-rock taste better than an Earth-rock? Because it's a little meteor."
         }
       ]);
-    });
 };

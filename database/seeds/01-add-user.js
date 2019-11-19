@@ -1,23 +1,18 @@
 const bcrypt = require("bcryptjs");
-exports.seed = function(knex) {
+exports.seed = async function(knex) {
   // Deletes ALL existing entries
-  return knex("jokes_list").truncate().then(() => {
-    return knex("users")
-      .truncate()
-      .then(function() {
-        // Inserts seed entries
-        return knex("users").insert([
-          {
-            username: "ayormeday",
-            email: "ayormeday@gmail.com",
-            password: bcrypt.hashSync("test", 10)
-          },
-          {
-            username: "newman",
-            email: "newman@gmail.com",
-            password: bcrypt.hashSync("test", 10)
-          }
-        ]);
-      });
-  });
+  await knex("users").del();
+  await knex.raw('ALTER TABLE users AUTO_INCREMENT = 1');
+  await knex("users").insert([
+    {
+      username: "ayormeday",
+      email: "ayormeday@gmail.com",
+      password: bcrypt.hashSync("test", 10)
+    },
+    {
+      username: "newman",
+      email: "newman@gmail.com",
+      password: bcrypt.hashSync("test", 10)
+    }
+  ]);
 };
