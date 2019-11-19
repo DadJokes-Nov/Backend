@@ -2,7 +2,7 @@ const bcrypt = require("bcryptjs");
 exports.seed = async function(knex) {
   // Deletes ALL existing entries
   await knex("users").del();
-  await knex.raw('ALTER SEQUENCE users_id_seq RESTARTS WITH 1');
+  await knex.raw('ALTER SEQUENCE users_id_seq RESTART WITH 1');
   await knex("users").insert([
     {
       username: "ayormeday",
