@@ -9,7 +9,7 @@ router.get("/", authenticate, (req, res) => {
         res.status(200).json(jokes);
       } else {
         res.json({
-          message: "Access Denied!!!"
+          message: "Access to jokelist Denied!!!"
         });
       }
     })
@@ -18,9 +18,31 @@ router.get("/", authenticate, (req, res) => {
     });
 });
 
+// router.get("/", authenticate, (req, res) => {
+//   Jokes.getJokesbyUserId({users_id:  req.loggedInUser.id})
+//     .then(jokes => {
+//       if (jokes) {
+//         res.status(200).json(jokes);
+//       } else {
+//         res.json({
+//           message: "Access to jokelist Denied!!!"
+//         });
+//       }
+//     })
+//     .catch(err => {
+//       res.send(err);
+//     });
+// });
+
 router.get("/:id", authenticate, validateJokeId, (req, res) => {
   res.status(200).json(req.joke);
 });
+
+router.post('/', authenticate, validateJokeBody, (req, res, next) => {
+    Jokes.add(req.body).then(joke => {
+      res.status(201).json(joke);
+    }).catch(next);
+  });
 
 router.put("/:id", validateJokeId, validateJokeBody, (req, res, next) => {
   Jokes.update(req.body, req.joke.id)

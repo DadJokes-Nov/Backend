@@ -8,6 +8,15 @@ const getJokes = filter => {
     }
   };
 
+  const getJokesbyUserId = filter => {
+    if (!filter) {
+      return db("jokes");
+    } else {
+      return db("jokes_list as jl").join("jokes as j, jl.users_id, j.id ")
+      .where({'jl.jokes_id' :filter});
+    }
+  };
+
   const getJoke = filter => {
     return db("jokes")
       .where(filter)
@@ -24,7 +33,7 @@ const getJokes = filter => {
     return db("jokes")
       .where({ id })
       .update(changes)
-      .then(() => getJoke(id));
+      .then(() => getJoke({id}));
   };
   
   const remove = id => {
@@ -35,6 +44,7 @@ const getJokes = filter => {
   
   module.exports = {
     getJokes,
+    getJokesbyUserId,
     getJoke,
     add,
     update,

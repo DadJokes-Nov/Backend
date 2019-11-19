@@ -80,17 +80,4 @@ function generateToken(user) {
 }
 
 
-// function generateToken(user) {
-//   return jwt.sign(
-//     {
-//       subject: user.id,
-//       username: user.username
-//     },
-//     process.env.NODE_ENV === "development" ? "secret" : process.env.JWT_SECRET,
-//     {
-//       expiresIn: "1d"
-//     }
-//   );
-// }
-
 module.exports = router;
