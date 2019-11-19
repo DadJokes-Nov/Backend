@@ -27,7 +27,7 @@ const getJoke = filter => {
 
 const add = joke => {
   return db("jokes")
-    .insert(joke)
+    .insert(joke, "id")
     .then(ids => getJoke({ id: ids[0] }));
 };
 
