@@ -40,7 +40,8 @@ function validateUserBody(req, res, next) {
   const { username, email, password } = req.body;
   if (!username || !email || !password) {
     next({
-      message: "Missing one of the required `username` , `email` or `password` fields!",
+      message:
+        "Missing one of the required `username` , `email` or `password` fields!",
       status: 401
     });
   } else {
@@ -78,19 +79,5 @@ function generateToken(user) {
 
   return result;
 }
-
-
-// function generateToken(user) {
-//   return jwt.sign(
-//     {
-//       subject: user.id,
-//       username: user.username
-//     },
-//     process.env.NODE_ENV === "development" ? "secret" : process.env.JWT_SECRET,
-//     {
-//       expiresIn: "1d"
-//     }
-//   );
-// }
 
 module.exports = router;
