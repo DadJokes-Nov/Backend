@@ -36,8 +36,8 @@ router.post("/login", validateUserBody, (req, res, next) => {
 });
 
 router.get("/:id", validateUserId, (req, res) => {
-  const { username, email } = req.user
-  res.status(200).json({ username, email });
+  const { username, email, user_url } = req.user
+  res.status(200).json({ username, email, user_url});
 });
 
 // validate the user register and login post req.body
