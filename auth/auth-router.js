@@ -35,19 +35,42 @@ router.post("/login", validateUserBody, (req, res, next) => {
     .catch(next);
 });
 
+router.get("/:id", validateUserId, (req, res) => {
+  const { username, email, user_url } = req.user
+  res.status(200).json({ username, email, user_url});
+});
+
 // validate the user register and login post req.body
 function validateUserBody(req, res, next) {
-  const { username, email, password } = req.body;
-  if (!username || !email || !password) {
+  const { username, password } = req.body;
+  if (!username || !password) {
     next({
       message:
-        "Missing one of the required `username` , `email` or `password` fields!",
+        "Missing one of the required `username` or `password` fields!",
       status: 401
     });
   } else {
-    req.body = { username, email, password };
+    req.body = { username, password };
     next();
   }
+}
+
+function validateUserId(req, res, next) {
+  const { id } = req.params;
+  let validId = Number(id);
+  if (!Number.isInteger(validId) && validId > 0) {
+    next({ message: "Invalid user id" });
+  }
+  Users.getUser({ id: validId })
+    .then(user => {
+      if (user) {
+        req.user = user;
+        next();
+      } else {
+        next({ message: "Could not find user with given id", status: 404 });
+      }
+    })
+    .catch(next);
 }
 
 // error middleware
