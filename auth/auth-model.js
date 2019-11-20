@@ -8,7 +8,7 @@ const getUser = filter => {
 
 const add = user => {
   return db("users")
-    .insert(user)
+    .insert(user, "id")
     .then(ids => getUser({ id: ids[0] }));
 };
 
