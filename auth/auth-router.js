@@ -42,7 +42,7 @@ router.get("/:id", validateUserId, (req, res) => {
 
 // validate the user register and login post req.body
 function validateUserBody(req, res, next) {
-  const { username, password } = req.body;
+  const { username, password, email } = req.body;
   if (!username || !password) {
     next({
       message:
@@ -50,10 +50,11 @@ function validateUserBody(req, res, next) {
       status: 401
     });
   } else {
-    req.body = { username, password };
+    req.body = { username, password, email };
     next();
   }
 }
+
 
 function validateUserId(req, res, next) {
   const { id } = req.params;
