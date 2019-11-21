@@ -30,7 +30,7 @@ router.post("/", authenticate, validateJokeBody, (req, res, next) => {
     .catch(next);
 });
 
-router.put("/:id", validateJokeId, validateJokeBody, (req, res, next) => {
+router.put("/:id", authenticate, validateJokeId, validateJokeBody, (req, res, next) => {
   Jokes.update(req.body, req.joke.id)
     .then(updatedScheme => {
       res.status(200).json(updatedScheme);
@@ -38,7 +38,7 @@ router.put("/:id", validateJokeId, validateJokeBody, (req, res, next) => {
     .catch(next);
 });
 
-router.delete("/:id", validateJokeId, (req, res, next) => {
+router.delete("/:id", authenticate, validateJokeId, (req, res, next) => {
   Jokes.remove(req.joke.id)
     .then(() => {
       res.status(204).json(req.joke);
