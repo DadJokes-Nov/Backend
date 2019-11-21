@@ -25,9 +25,11 @@ router.post("/login", validateUserBody, (req, res, next) => {
           next({ message: "Invalid credentials", status: 400 });
         } else {
           const token = generateToken(user);
+          const id = user.id;
           res.status(200).json({
             message: `Welcome ${user.username}!`,
-            token: token
+            token: token,
+            id: id
           });
         }
       }
@@ -36,8 +38,8 @@ router.post("/login", validateUserBody, (req, res, next) => {
 });
 
 router.get("/:id", validateUserId, (req, res) => {
-  const { username, email, user_url } = req.user
-  res.status(200).json({ username, email, user_url});
+  const { username, email } = req.user
+  res.status(200).json({ username, email});
 });
 
 // validate the user register and login post req.body

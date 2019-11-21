@@ -8,13 +8,11 @@ exports.seed = async function(knex) {
       username: "ayormeday",
       email: "ayormeday@gmail.com",
       password: bcrypt.hashSync("test", 10),
-      user_url: ""
     },
     {
       username: "newman",
       email: "newman@gmail.com",
       password: bcrypt.hashSync("test", 10),
-      user_url: ""
     }
   ]);
 };

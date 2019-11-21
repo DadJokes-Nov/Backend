@@ -9,10 +9,8 @@ exports.up = function(knex) {
         .unique();
       tbl
         .string("email", 128)
-        // .notNullable()
         .unique();
       tbl.string("password", 255).notNullable();
-      tbl.string("user_url", 255);
     })
 
     .createTable("jokes", tbl => {
