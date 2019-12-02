@@ -14,9 +14,9 @@ server.use(logger);
 server.use(cors());
 server.use(express.json());
 
+server.use("/api/auth/jokes", authJokesRouter);
 server.use("/api/auth", authRouter);
 server.use("/api/jokes", jokesRouter);
-server.use("/api/auth/jokes", authJokesRouter);
 
 server.get("/", (req, res) => {
   res.send("Server sanity check");
